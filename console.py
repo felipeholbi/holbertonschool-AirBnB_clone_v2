@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import json
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -118,6 +119,18 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+    def converter(self, arg: str):
+        """convertir """
+        try:
+            return int(arg)
+        except Exception:
+            pass
+            
+        try:
+            return float(arg)
+        except Exception:
+            return(arg)
+
     def do_create(self, args):
         """ Create an object of any class"""
         tokens = args.split()
@@ -128,10 +141,20 @@ class HBNBCommand(cmd.Cmd):
         else:
             if tokens[0] in HBNBCommand.classes:
                 insmbase = HBNBCommand.classes[tokens[0]]()
+                for index in range(1, len(tokens)):
+                    param = tokens[index].split('=')
+                    key = param[0]
+                    value = (param[1])
+                    if value[0] is value[-1] in ["'",'"']:
+                            value = value.strip("\"'").replace("_"," ")
+                    else:
+                        value = self.converter(value)
+                    setattr(insmbase, key, value)
                 print(insmbase.id)
                 insmbase.save()
             else:
                 print("** class doesn't exist **")
+
 
     def help_create(self):
         """ Help information for the create method """
