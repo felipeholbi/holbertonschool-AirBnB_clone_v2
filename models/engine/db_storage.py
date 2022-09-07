@@ -10,6 +10,7 @@ from sqlalchemy import (create_engine)
 from os import getenv
 from sqlalchemy.orm import sessionmaker, scoped_session
 
+
 class DBStorage():
     """Class DBStorage"""
     __engine = None
@@ -21,7 +22,7 @@ class DBStorage():
                                       .format(getenv("HBNB_MYSQL_USER"),
                                               getenv("HBNB_MYSQL_PWD"),
                                               getenv("HBNB_MYSQL_HOST"),
-                                              getenv("HBNB_MYSQL_DB")), 
+                                              getenv("HBNB_MYSQL_DB")),
                                       pool_pre_ping=True)
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
@@ -30,13 +31,12 @@ class DBStorage():
         """The following values must be retrieved via environment variables"""
         classes = [User, State, Place, Amenity, Review, City]
         my_dict = {}
-
         if cls in classes:
             search = self.__session.query(cls)
             for object in search:
-                key = (f"{object.__class__.__name__}.{object.id}")
+                key = "{}.{}".format(type(object).__name__,
+                               object.id)
                 my_dict[key] = object
-        
         elif cls is None:
             for class_ in classes:
                 search = self.__session.query(class_)
@@ -49,7 +49,7 @@ class DBStorage():
     def new(self, obj):
         """Add the object to the current database session"""
         self.__session.add(obj)
-    
+
     def save(self):
         """Commit all changes of the current database session"""
         self.__session.commit()
@@ -65,11 +65,11 @@ class DBStorage():
     def reload(self):
         """Create all tables in the databas"""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine,
-                                  expire_on_commit=False)
+        session_factory = sessionmaker(
+            bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
-    
+
     def close(self):
         """Close the session"""
         self.__session.close()
