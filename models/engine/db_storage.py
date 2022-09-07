@@ -6,7 +6,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 from models.city import City
-from sqlalchemy import create_engine
+from sqlalchemy import (create_engine)
 from os import getenv
 from sqlalchemy.orm import sessionmaker, scoped_session
 
@@ -38,10 +38,12 @@ class DBStorage():
                 my_dict[key] = object
         
         elif cls is None:
-            search = self.__session.query(cls)
-            for object in search:
-                key = (f"{object.__class__.__name__}.{object.id}")
-                my_dict[key] = object
+            for class_ in classes:
+                search = self.__session.query(class_)
+                for object in search:
+                    key = "{}.{}".format(type(object).__name__,
+                               object.id)
+                    my_dict[key] = object
         return my_dict
 
     def new(self, obj):
