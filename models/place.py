@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
+import models
 from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship, backref
+
 
 class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
     """ A place to stay"""
@@ -26,7 +28,7 @@ class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
             backref=backref("place", cascade="all,delete"),
             passive_deletes=True)
 
-    else:  
+    else:
         city_id = ""
         user_id = ""
         name = ""
