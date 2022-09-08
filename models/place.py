@@ -72,8 +72,8 @@ class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
         def reviews(self):
             """Attribute reviews that returns
             the list of Review instances"""
-            reviews_id = storage.all('Review')
             from models import storage
+            reviews_id = storage.all('Review')
             new_list = []
             for review in reviews_id.values():
                 if review.place_id == self.id:
