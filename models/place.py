@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
+from turtle import back
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -68,38 +69,38 @@ class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
         longitude = 0.0
         amenity_ids = []
 
-    @property
-    def reviews(self):
-        """Attribute reviews that returns
-        the list of Review instances"""
-        from models import storage
-        reviews_id = storage.all('Review').values()
-        new_list = []
-        for review in reviews_id:
-            if review.place_id == self.id:
-                new_list.append(review)
-        return (new_list)
+        @property
+        def reviews(self):
+            """Attribute reviews that returns
+            the list of Review instances"""
+            from models import storage
+            reviews_id = storage.all('Review').values()
+            new_list = []
+            for review in reviews_id:
+                if review.place_id == self.id:
+                    new_list.append(review)
+            return (new_list)
 
-    @property
-    def amenities(self):
-        """
-        Attribute amenities that returns
-        the list of Amenity instances
-        """
-        from models import storage
-        new_list = []
-        amenities_id = storage.all('Amenity').values()
-        for amenity in amenities_id:
-            if amenity.amenity_ids == self.id:
-                new_list.append(amenity)
-        return (new_list)
+        @property
+        def amenities(self):
+            """
+            Attribute amenities that returns
+            the list of Amenity instances
+            """
+            from models import storage
+            new_list = []
+            amenities_id = storage.all('Amenity').values()
+            for amenity in amenities_id:
+                if amenity.amenity_ids == self.id:
+                    new_list.append(amenity)
+            return (new_list)
 
-    @reviews.setter
-    def amenities(self, obj):
-        """
-        Handles append
-        method for adding an Amenity.id
-        """
-        from models.amenity import Amenity
-        if isinstance(obj, Amenity):
-            self.amenity_ids.append(obj.id)
+        @reviews.setter
+        def amenities(self, obj):
+            """
+            Handles append
+            method for adding an Amenity.id
+            """
+            from models.amenity import Amenity
+            if isinstance(obj, Amenity):
+                self.amenity_ids.append(obj.id)
