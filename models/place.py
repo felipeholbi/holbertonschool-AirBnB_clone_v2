@@ -45,9 +45,9 @@ class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
 
         reviews = relationship(
             "Review",
-            cascade="all,delete",
-            backref=backref("place", cascade="all,delete"),
-            passive_deletes=True)
+            backref='state',
+            cascade="all, delete, delete-orphan"
+        )
 
         amenities = relationship(
             "Amenity",
