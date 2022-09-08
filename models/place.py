@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from turtle import back
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -78,7 +77,7 @@ class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
             for review in reviews_id.values():
                 if review.place_id == self.id:
                     new_list.append(review)
-            return (new_list)
+            return new_list
 
         @property
         def amenities(self):
@@ -92,7 +91,7 @@ class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
             for amenity in amenities_id:
                 if amenity.amenity_ids == self.id:
                     new_list.append(amenity)
-            return (new_list)
+            return new_list
 
         @reviews.setter
         def amenities(self, obj):
