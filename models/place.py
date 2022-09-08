@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 import models
-from models.amenity import Amenity
 from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import *
@@ -30,7 +29,6 @@ place_amenity = Table(
 
 class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
     """ A place to stay"""
-
     if getenv("HBNB_TYPE_STORAGE") == "db":
         __tablename__ = "places"
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
@@ -43,6 +41,8 @@ class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
         price_by_night = Column(Integer, nullable=False, default=0)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
+        amenity_ids = []
+
         reviews = relationship(
             "Review",
             cascade="all,delete",
@@ -100,5 +100,6 @@ class Place(BaseModel, Base if (getenv("HBNB_TYPE_STORAGE")=="db") else object):
         Handles append
         method for adding an Amenity.id
         """
+        from models.amenity import Amenity
         if isinstance(obj, Amenity):
             self.amenity_ids.append(obj.id)
