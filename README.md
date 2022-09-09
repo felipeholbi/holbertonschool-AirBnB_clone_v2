@@ -67,10 +67,10 @@ Advanced syntax is implemented for the following commands:
 
 <br>
 <br>
-<center> <h2>Examples</h2> </center>
+<center> <h2>Examples 🛠</h2> </center>
 <h3>Primary Command Syntax</h3>
 
-###### Example 0: Create an object 🛠
+###### Example 0: Create an object
 Usage: create <class_name>
 ```
 (hbnb) create BaseModel
