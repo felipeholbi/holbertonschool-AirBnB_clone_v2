@@ -106,7 +106,7 @@ Usage: update <class_name> <_id>
 'updated_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729907), 'first_name': 'person'}
 (hbnb)
 ```
-<h3>Alternative Syntax</h3>
+<h3>Alternative Syntax 📄</h3>
 
 ###### Example 0: Show all User objects
 Usage: <class_name>.all()
