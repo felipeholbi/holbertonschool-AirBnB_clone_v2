@@ -35,14 +35,14 @@ class DBStorage():
             search = self.__session.query(cls)
             for object in search:
                 key = "{}.{}".format(type(object).__name__,
-                               object.id)
+                                     object.id)
                 my_dict[key] = object
         elif cls is None:
             for class_ in classes:
                 search = self.__session.query(class_)
                 for object in search:
                     key = "{}.{}".format(type(object).__name__,
-                               object.id)
+                                         object.id)
                     my_dict[key] = object
         return my_dict
 
